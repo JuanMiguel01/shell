@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<errno.h>
-
+#include <stdlib.h>
 
 void imprimirPrompt(){
     
@@ -12,6 +12,7 @@ void imprimirPrompt(){
         printf("No se pudo obtener el login del usuario");
         error=1;
     }
+    printf("%s",login);
     /*coger el nombre del host actual */
     char nombreHost[256];
     int aux=gethostname(nombreHost,256);
