@@ -28,25 +28,8 @@ void imprimirPrompt(){
         error=1;
     }
     if(!error){
-        /*coger el nombre de la carpeta actual*/
-        int i=0;
-        char aux;
-        int ultimaBarra=0;
-        while((aux=dirActual[i])!=0){
-            if(aux=='/'){
-                ultimaBarra=i;
-            }
-            i++;
-        }
-        char carpetaActual[1000];
-        int j=0;
-        for(i=ultimaBarra+1;i<strlen(dirActual);i++){
-            carpetaActual[j]=dirActual[i];
-            j++;
-        }
-        carpetaActual[j]='\0';
         /*imprimir el prompt*/
-        printf("%s@%s:%s$ ",login,nombreHost,carpetaActual);
+        printf("%s@%s:%s$ ",login,nombreHost,dirActual);
 
     }
     else{
