@@ -4,203 +4,116 @@
 #include <unistd.h>
 #include "parser.h"
 
-
- command_t *parser(char *input) {
-    // Dividir la línea en tokens usando espacios y saltos de línea como delimitadores
-    char *token = strtok(input, " \n");
-    // Variable para contar cuántas tuberías se han encontrado
-    int pipe_count = 0;
+command_t *parse_command(char *input) {
+    command_t *command = malloc(sizeof(command_t));
+    char *saveptr1;
+    command->name = strtok_r(input, " \n", &saveptr1);
+    command->args = malloc(sizeof(char *));
+    command->num_args = 1;
+    command->next = NULL;
+    command->stdin_archivo = NULL;
+    command->stdout_archivo = NULL;
+    command->doble = 0;
+    command->tuberia = 0;
     
-    // Crear una lista enlazada para almacenar los comandos y sus argumentos
+    // Agregar el nombre del comando como primer argumento
+    command->args[0] = command->name;
+    
+    char *arg = strtok_r(NULL, " \n", &saveptr1);
+    
+    while (arg != NULL) {
+        if (strcmp(arg, ">") == 0 || strcmp(arg, "<") == 0 || strcmp(arg, ">>") == 0) {
+            // Si el argumento es >, < o >>, procesarlo primero
+            char* archivo = strtok_r(NULL, " \n", &saveptr1);
+            if (archivo == NULL) {
+                perror("1234");
+            } else {
+                if (strcmp(arg, "<") == 0) { command->stdin_archivo = archivo; }
+                if (strcmp(arg, ">") == 0) { command->stdout_archivo = archivo; command->doble = 0; }
+                if (strcmp(arg, ">>") == 0) { command->stdout_archivo = archivo; command->doble = 1; }
+            }
+        } else {
+            // Si el argumento no es >, < o >>, procesarlo normalmente
+            
+            // Agregar el argumento al comando
+            command->num_args++;
+            command->args = realloc(command->args, command->num_args * sizeof(char *));
+            command->args[command->num_args - 1] = arg;
+        }
+        
+        arg = strtok_r(NULL, " \n", &saveptr1);
+    }
+
+    command->num_args++;
+    command->args = realloc(command->args, command->num_args * sizeof(char *));
+    command->args[command->num_args - 1] = NULL;
+    --command->num_args;
+    
+    return command;
+}
+command_t *parse_commands(char *input) {
     command_t *head = NULL;
     command_t *tail = NULL;
     
-    // Variable para almacenar el comando actualmente en proceso
-    command_t *current_command = NULL;
-
-    // Variable para almacenar el comando anterior
-    command_t *previous_command = NULL;
+    char *saveptr1;
+    // Separar la entrada en segmentos usando los símbolos || y ;
+    char *segment = strtok_r (input, ";", &saveptr1);
     
-    // Recorrer cada token
-    while (token != NULL || token != '\0' ) {
-        
-        // Si el token es un #, salir del bucle
-        if (strcmp(token, "#") == 0) {
-            break;
-        } else if (strcmp(token, "cd") == 0) {
-            // Crear un nuevo comando y agregarlo a la lista enlazada
-            current_command = malloc(sizeof(command_t));
-            current_command->name = "cd";
-            current_command->args = malloc(2 * sizeof(char *));
-            current_command->num_args = 2;
-            current_command->next = NULL;
-            
-            // Agregar el nombre del comando como primer argumento
-            current_command->args[0] = "cd";
-            
-            // Obtener el siguiente token (que debería ser el argumento del comando cd)
-            token = strtok(NULL, " \n");
-            current_command->args[1] = token;
-            
-        } else if (strcmp(token, "<") == 0) {
-            // Agregar el comando actualmente en proceso a la lista enlazada (si existe)
-            if (current_command != NULL) {
-                if (head == NULL) {
-                    head = current_command;
-                    tail = current_command;
-                } else {
-                    tail->next = current_command;
-                    tail = current_command;
-                }
-                current_command = NULL;
-            }
-            
-            // Crear un nuevo comando y agregarlo a la lista enlazada
-            command_t *new_command = malloc(sizeof(command_t));
-            new_command->name = "<";
-            new_command->args = malloc(sizeof(char *));
-            new_command->num_args = 1;
-            new_command->next = NULL;
-            
-            // Obtener el siguiente token (que debería ser el argumento del comando <)
-            token = strtok(NULL, " \n");
-            new_command->args[0] = token;
-            
-            // Agregar el nuevo comando a la lista enlazada
-            if (head == NULL) {
-                head = new_command;
-                tail = new_command;
-            } else {
-                tail->next = new_command;
-                tail = new_command;
-            }
-        }else if (strcmp(token, ">") == 0) {
-             // Agregar el comando actualmente en proceso a la lista enlazada (si existe)
-             if(current_command!=NULL){
-                 if(head==NULL){
-                     head=current_command;
-                     tail=current_command;
-                 } else {
-                     tail->next=current_command;
-                     tail=current_command; 
-                 }
-                 current_command=NULL; 
-             }
+    while (segment != NULL) {
+        char *saveptr2;
+        char *saveptr3;
+        // Separar el segmento en subsegmentos usando el símbolo |
+        char *subsegment = strtok_r (segment, "|", &saveptr2);
 
-             // Crear un nuevo comando y agregarlo a la lista enlazada
-             command_t *new_command=malloc(sizeof(command_t));
-             new_command->name=">";
-             new_command->args=malloc(sizeof(char *));
-             new_command->num_args=1; 
-             new_command->next=NULL;
-
-             // Obtener el siguiente token (que debería ser el argumento del comando >)
-             token=strtok(NULL," \n");
-             new_command->args[0]=token;
-
-             // Agregar el nuevo comando a la lista enlazada
-             if(head==NULL){
-                 head=new_command;
-                 tail=new_command;
-             } else {
-                 tail->next=new_command;
-                 tail=new_command;
-             }
-        } else if (strcmp(token, ">>") == 0) {
-            // Agregar el comando actualmente en proceso a la lista enlazada (si existe)
-            if (current_command != NULL) {
-                if (head == NULL) {
-                    head = current_command;
-                    tail = current_command;
-                } else {
-                    tail->next = current_command;
-                    tail = current_command;
-                }
-                current_command = NULL;
+        while (subsegment != NULL) {
+            // Ignorar los caracteres después de un #
+            char *comment = strchr(subsegment, '#');
+            if (comment != NULL) {
+                *comment = '\0';
             }
             
-            // Crear un nuevo comando y agregarlo a la lista enlazada
-            command_t *new_command = malloc(sizeof(command_t));
-            new_command->name = ">>";
-            new_command->args = malloc(sizeof(char *));
-            new_command->num_args = 1;
-            new_command->next = NULL;
+            // Llamar a parse_command en cada subsegmento
+            command_t *command = parse_command(subsegment);
             
-            // Obtener el siguiente token (que debería ser el argumento del comando >>)
-            token = strtok(NULL, " \n");
-            new_command->args[0] = token;
-            
-            // Agregar el nuevo comando a la lista enlazada
-            if (head == NULL) {
-                head = new_command;
-                tail = new_command;
-            } else {
-                tail->next = new_command;
-                tail = new_command;
+            // Activar los campos tuberia_lectura y tuberia_escritura si el separador es |
+            if ((subsegment = strtok_r (NULL, "|", &saveptr2)) != NULL)
+            {
+                command->tuberia = 1;
             }
-        } else if (strcmp(token, "ls") == 0) {
-            // Crear un nuevo comando y agregarlo a la lista enlazada
-            current_command = malloc(sizeof(command_t));
-            current_command->name = "ls";
-            current_command->args = malloc(sizeof(char *));
-            current_command->num_args = 1;
-            current_command->next = NULL;
             
-            // Agregar el nombre del comando como primer argumento
-            current_command->args[0] = "ls";
-        }else if (strcmp(token, "|") == 0) {
-            // Aumentar el contador de tuberías
-            pipe_count++;
-        } else if (strcmp(token, "&") == 0) {
-            printf("comando & reconocido");
-        } else if (strcmp(token, "jobs") == 0) {
-            printf("comando jobs reconocido");
-        } else if (strcmp(token, "fg") == 0) {
-            printf("comando fg reconocido");
-        }   else {
-            // Si no es ninguno de los tokens especiales, asumir que es un argumento del comando actual
-            if (current_command == NULL) {
-                // Si no hay un comando actualmente en proceso, crear uno nuevo
-                current_command = malloc(sizeof(command_t));
-                current_command->name = token;
-                current_command->args = malloc(10 * sizeof(char *));
-                current_command->num_args = 1;
-                current_command->next = NULL;
-                
-                // Agregar el nombre del comando como primer argumento
-                current_command->args[0] = token;
+            
+            
+            // Agregar el comando a la lista enlazada
+            if (head == NULL)
+            {
+                head = command;
+                tail = command;
             } else {
-                // Si hay un comando actualmente en proceso, agregar el token como un argumento adicional
-                current_command->args[current_command->num_args] = token;
-                current_command->num_args++;
+                tail->next = command;
+                tail = command;
             }
         }
         
-        // Obtener el siguiente token
-        token = strtok(NULL, " \n");
+        segment = strtok_r(NULL, ";&&", &saveptr1);
     }
+   
+    // Imprimir en pantalla la lista de comandos generada
+    printf("Commands:\n");
     
-    // Agregar el último comando a la lista enlazada (si existe)
-    if (current_command != NULL) {
-        if (head == NULL) {
-            head = current_command;
-            tail = current_command;
-        } else {
-            tail->next = current_command;
-            tail = current_command;
-        }
-    }
+    command_t *commands = head;
     
-    // Recorrer la lista enlazada e imprimir cada comando y sus argumentos
-    command_t *current = head;
-    while (current != NULL) {
-        printf("%s ", current->name);
-        for (int i = 1; i < current->num_args; i++) {
-            printf("%s ", current->args[i]);
+    while (commands != NULL) {
+        printf("  Command: %s\n", commands->name);
+        printf("  Arguments:\n");
+        for (int i = 0; i < commands->num_args; i++) {
+            printf("    %s\n", commands->args[i]);
         }
         printf("\n");
-        current = current->next;
+        
+        commands = commands->next;
     }
     
     return head;
 }
+
+//;  &&  || |

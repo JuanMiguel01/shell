@@ -4,12 +4,16 @@
 typedef struct command {
     char *name;
     char **args;
-    int num_args;
+    char *stdin_archivo;
+    char *stdout_archivo;
+    int pid;
+    unsigned doble : 1;
+    unsigned tuberia : 1;
+    unsigned background : 1; // Agregar un campo para indicar si el comando debe ejecutarse en segundo plano
+    unsigned num_args;
     struct command *next;
-    struct command *previous; // Agregar un campo para el comando anterior
 } command_t;
 
-
-command_t *parser(char *input);
+command_t *parse_commands(char *input);
 
 #endif

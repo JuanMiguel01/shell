@@ -2,8 +2,8 @@
 #include<string.h>
 #include<errno.h>
 #include <stdlib.h>
-
-void imprimirPrompt(){
+#include <readline/readline.h>
+char *Prompt(){
     
     int error=0;
     /*primero coger el login del usuario y si falla aumentar la variable error*/
@@ -28,12 +28,14 @@ void imprimirPrompt(){
         error=1;
     }
     if(!error){
-        /*imprimir el prompt*/
-        printf("%s@%s:%s$ ",login,nombreHost,dirActual);
-
+        
+        char result[1024];
+        sprintf(result, "%s@%s~%s$ ", login, nombreHost, dirActual);
+        return readline(result);
+       
     }
     else{
         
-        printf("$ ");
+        return readline(NULL);
     }
 }

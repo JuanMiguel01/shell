@@ -1,6 +1,6 @@
 #ifndef IMPRIMIRPROMPT_H
 #define IMPRIMIRPROMPT_H
 
-void imprimirPrompt();
+char *Prompt();
 
 #endif
