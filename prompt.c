@@ -2,6 +2,7 @@
 #include<string.h>
 #include<errno.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <readline/readline.h>
 char *Prompt(){
     
@@ -21,7 +22,7 @@ char *Prompt(){
         error=1;
     }
     /*coger el nombre del directorio actual*/
-    char dirActual[1000];
+    char dirActual[1024];
     char *aux2=getcwd(dirActual,1000);
     if(aux2==NULL){
         perror("No se pudo obtener el directorio actual");

@@ -3,11 +3,42 @@
 #include <string.h>
 #include <unistd.h>
 #include "parser.h"
-
+char *get_next_arg(char **input) {
+    char *arg = NULL;
+    char *end = NULL;
+    
+    // Ignorar espacios y saltos de línea al principio
+    while (**input == ' ' || **input == '\n') {
+        (*input)++;
+    }
+    
+    if (**input == '\"') {
+        // Si el argumento comienza con una comilla doble, buscar la comilla doble final
+        arg = ++(*input);
+        end = strchr(*input, '\"');
+        if (end != NULL) {
+            *end = '\0';
+            *input = end + 1;
+        }
+    } else {
+        // Si el argumento no comienza con una comilla doble, buscar el siguiente espacio o salto de línea
+        arg = *input;
+        end = strpbrk(*input, " \n");
+        if (end != NULL) {
+            *end = '\0';
+            *input = end + 1;
+        } else {
+            *input += strlen(*input);
+        }
+    }
+    
+    return arg;
+}
 command_t *parse_command(char *input) {
+    
     command_t *command = malloc(sizeof(command_t));
     char *saveptr1;
-    command->name = strtok_r(input, " \n", &saveptr1);
+    command->name = get_next_arg(&input);
     command->args = malloc(sizeof(char *));
     command->num_args = 1;
     command->next = NULL;
@@ -15,16 +46,17 @@ command_t *parse_command(char *input) {
     command->stdout_archivo = NULL;
     command->doble = 0;
     command->tuberia = 0;
-    
+    command ->background=0;
     // Agregar el nombre del comando como primer argumento
     command->args[0] = command->name;
     
-    char *arg = strtok_r(NULL, " \n", &saveptr1);
+    char *arg = get_next_arg(&input);
     
-    while (arg != NULL) {
+    while (*arg != '\0') {
+
         if (strcmp(arg, ">") == 0 || strcmp(arg, "<") == 0 || strcmp(arg, ">>") == 0) {
             // Si el argumento es >, < o >>, procesarlo primero
-            char* archivo = strtok_r(NULL, " \n", &saveptr1);
+            char* archivo = get_next_arg(&input);
             if (archivo == NULL) {
                 perror("1234");
             } else {
@@ -32,7 +64,7 @@ command_t *parse_command(char *input) {
                 if (strcmp(arg, ">") == 0) { command->stdout_archivo = archivo; command->doble = 0; }
                 if (strcmp(arg, ">>") == 0) { command->stdout_archivo = archivo; command->doble = 1; }
             }
-        } else {
+        }else {
             // Si el argumento no es >, < o >>, procesarlo normalmente
             
             // Agregar el argumento al comando
@@ -41,9 +73,13 @@ command_t *parse_command(char *input) {
             command->args[command->num_args - 1] = arg;
         }
         
-        arg = strtok_r(NULL, " \n", &saveptr1);
+        arg = get_next_arg(&input);
     }
-
+    if (strcmp(command->args[command->num_args - 1], "&") == 0) {
+        command->background = 1;
+        command->args[command->num_args - 1] = NULL;
+        --command->num_args;
+    }
     command->num_args++;
     command->args = realloc(command->args, command->num_args * sizeof(char *));
     command->args[command->num_args - 1] = NULL;
@@ -52,6 +88,9 @@ command_t *parse_command(char *input) {
     return command;
 }
 command_t *parse_commands(char *input) {
+    if (input != NULL && input[0] != '\0' && input[0] != ' ') {
+        add_history(input);
+    }
     command_t *head = NULL;
     command_t *tail = NULL;
     
