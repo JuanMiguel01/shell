@@ -13,7 +13,7 @@ char *Prompt(){
         printf("No se pudo obtener el login del usuario");
         error=1;
     }
-    printf("%s",login);
+    
     /*coger el nombre del host actual */
     char nombreHost[256];
     int aux=gethostname(nombreHost,256);

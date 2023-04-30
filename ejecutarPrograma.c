@@ -96,11 +96,13 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
         // Ejecutar los comandos entre if y then
         command_t *if_command = current->if_commands;
         while (if_command != NULL)
-        {
-            exit_status = ejecutar_programa(line, if_command, pnumero_de_procesos);
+        {   
+            printf("paso0");
             
+            exit_status = ejecutar_programa(line, if_command, pnumero_de_procesos);
+            printf("paso0.3");
             if_command = if_command->next;
-            printf(exit_status);
+            
             perror("paso");
         }
 
@@ -121,9 +123,10 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
             while (else_command != NULL)
             {   
                 
+                printf("paso1");
                 ejecutar_programa(line, else_command, pnumero_de_procesos);
                 else_command = else_command->next;
-                
+                printf("paso2");
                  
             }
         }
