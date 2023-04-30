@@ -72,6 +72,55 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
         fg(pid);
         return NULL;
     }
+    else if (strcmp(current->name, "true") == 0)
+    {
+        // Si el comando es un comando true
+        return 0;
+    }
+    else if (strcmp(current->name, "false") == 0)
+    {
+        // Si el comando es un comando false
+        return 1;
+    }
+    else if (strcmp(current->name, "if") == 0)
+    {
+        // Si el comando es un comando if
+        int exit_status = 0;
+
+        // Ejecutar los comandos entre if y then
+        command_t *if_command = current->if_commands;
+        while (if_command != NULL)
+        {
+            exit_status = ejecutar_programa(line, if_command, pnumero_de_procesos);
+            
+            if_command = if_command->next;
+        }
+
+        // Si el valor de retorno es cero, ejecutar los comandos entre then y else o end
+        if (exit_status == 0)
+        {   
+            command_t *then_command = current->then_commands;
+            while (then_command != NULL)
+            {
+                ejecutar_programa(line, then_command, pnumero_de_procesos);
+                then_command = then_command->next;
+            }
+        }
+        else
+        {
+            // Si el valor de retorno no es cero y hay un comando else, ejecutar los comandos entre else y end
+            command_t *else_command = current->else_commands;
+            while (else_command != NULL)
+            {   
+                
+                ejecutar_programa(line, else_command, pnumero_de_procesos);
+                else_command = else_command->next;
+                 
+            }
+        }
+        
+        return (exit_status,NULL,NULL);
+    }
     int stdout_copy = -1;
     int stdin_copy = -1;
 
@@ -112,7 +161,7 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
 
         if (pid < 0)
             perror("fork");
-        else if (pid == 0)
+        else if (pid == 0 )
         {
 
             // Llamada al método cd
@@ -146,7 +195,7 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
                         }
                     }
                 }
-                return 0; // No llamar a waitpid después de ejecutar el comando history
+                return 1; // No llamar a waitpid después de ejecutar el comando history
             }
             else if (strcmp(current->name, "again") == 0)
             {
@@ -168,6 +217,11 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
             }
             else
             {
+                if (execvp(current->name, current->args) == -1)
+                {
+                    
+                    exit(1);
+                }
                 execvp(current->name, current->args);
             }
         }
@@ -252,7 +306,7 @@ void fg(int indice)
             {
                 prev->next = current->next;
             }
-            
+
             waitmany(current->comandos);
             break;
         }
@@ -260,3 +314,4 @@ void fg(int indice)
         current = current->next;
     }
 }
+///////////////////////////////////////////////////////////////////
