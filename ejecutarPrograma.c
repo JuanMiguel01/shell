@@ -53,6 +53,12 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
 
     command_t *current = comando;
     command_t *next;
+    if(strcmp(current->name,"help")==0){
+        
+        help(current->args[0]);
+        perror(current->args[0]);
+        return 0;
+    }
     if (strcmp(current->name, "jobs") == 0)
     {
         jobs();
@@ -94,6 +100,8 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
             exit_status = ejecutar_programa(line, if_command, pnumero_de_procesos);
             
             if_command = if_command->next;
+            printf(exit_status);
+            perror("paso");
         }
 
         // Si el valor de retorno es cero, ejecutar los comandos entre then y else o end
@@ -115,6 +123,7 @@ int *ejecutar_programa(char *line, command_t *comando, int *pnumero_de_procesos)
                 
                 ejecutar_programa(line, else_command, pnumero_de_procesos);
                 else_command = else_command->next;
+                
                  
             }
         }
@@ -313,5 +322,16 @@ void fg(int indice)
         prev = current;
         current = current->next;
     }
+}
+void help(char *keyword) {
+    
+    if (keyword == NULL) {
+        // Imprimir lista de funcionalidades implementadas
+    } else if (strcmp(keyword, "if") == 0) {
+        // Imprimir información sobre la funcionalidad "if"
+    } else if (strcmp(keyword, "then") == 0) {
+        // Imprimir información sobre la funcionalidad "then"
+    } // ...
+    
 }
 ///////////////////////////////////////////////////////////////////

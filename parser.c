@@ -71,6 +71,21 @@ command_t *parse_command(char *input)
     printf(input);
     char *arg = get_next_arg(&input);
     
+    if (strcmp(command->name, "help") == 0) {
+       
+        if (arg != NULL && arg[0] == '<' && arg[strlen(arg) - 1] == '>') {
+            // Crear una nueva cadena sin los símbolos < y >
+            size_t keyword_len = strlen(arg) - 2;
+            char *keyword = malloc(keyword_len + 1);
+            strncpy(keyword, arg + 1, keyword_len);
+            keyword[keyword_len] = '\0';
+            command->args[0]=keyword;
+            
+        } else {
+            command->args[0]=arg;
+        }
+        return command;
+    }
     while (*arg != '\0')
     {
 
@@ -148,7 +163,7 @@ command_t *parse_commands(char *input)
 
     while (segment != NULL)
     {
-        
+                
         char *saveptr2;
         char *saveptr3;
         // Separar el segmento en subsegmentos usando el símbolo |
