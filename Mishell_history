@@ -1,0 +1,222 @@
+ls
+./Tester &
+fg
+jobs
+./Tester &
+fg
+jobs
+./Tester &
+./Tester &
+jobs
+fg
+jobs
+fg
+jobs
+./Tester &
+./Tester &
+jobs
+fg
+jobs
+fg
+jobs
+ls | xz | wc
+ls | xz | wc
+if false then ls end
+clear
+ls | xz | wc
+ls | xz | wc
+ls | xz
+ls | xz | wc
+ls | xz | wc
+ls | xz | wc
+ls | xz | wc
+if false then ls end
+if true then ls end 
+if true then ls end
+ls 
+ls
+ls | xz | wc
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+exxit
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+exxit
+exxit
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+ls
+ls | xz | wc
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls end
+if true then ls -a end
+if true then ls -l end
+if true then ls -l end
+if true then ls -l end
+if  -e /etc/passwd  then echo "El archivo /etc/passwd existe" else echo "El archivo /etc/passwd no existe" end
+if  $(whoami) = "root"  the echo "Eres el usuario root" else   -e /etc/passwd then echo "No eres el usuario root, pero el archivo /etc/passwd existe" else echo "No eres el usuario root y el archivo /etc/passwd no existe" end
+if  $(whoami) = "root"  then echo "Eres el usuario root" else   -e /etc/passwd then echo "No eres el usuario root, pero el archivo /etc/passwd existe" else echo "No eres el usuario root y el archivo /etc/passwd no existe" end
+if  $(whoami) = "root"  then echo "Eres el usuario root" else   -e /etc/passwd then echo "No eres el usuario root, pero el archivo /etc/passwd existe" else echo "No eres el usuario root y el archivo /etc/passwd no existe" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" endexit
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" endexit
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%u) -eq 7  then echo "Hoy es domingo" else echo "Hoy no es domingo" end
+if $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+ls
+if $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if true then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+ls
+if  $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+ls
+if  $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if  $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if  $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if true then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if true then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if true then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if true then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if false 
+if false then echo "Es antes" else echo "es desp" end
+if false then echo "Es antes" else echo "es desp" end
+if true then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if  $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if  $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if  $(date +%H) -lt 12  then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if true then echo "Es antes del mediodía" else echo "Es después del mediodía" end
+if test -f archivo.txt then echo "El archivo existe" else echo "El archivo no existe" end
+if ps aux | grep -q "[m]i_proceso" then killall mi_proceso else echo "El proceso no está en ejecución" end
+if ps aux | grep -q "[m]i_proceo" then killall mi_proceso else echo "El proceso no está en ejecución" end
+if ps aux | grep -q "mi_proceso" then killall mi_proceso else echo "El proceso no está en ejecución" end
+if ps aux | grep -q "mi_proceso" then kil11lall mi_proceso11 else echo "El proceso no está en ejecución" end
+if  ! -d mi_directorio  then mkdir mi_directorio else echo "El directorio ya existe" end
+if ps aux | grep -q "mi_proceso" then kil11lall mi_proceso11 else echo "El proceso no está en ejecución" end
+if ps aux | grep -q "mi_proceso" then kil11lall mi_proceso11 else echo "El proceso no está en ejecución" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if ps aux | grep -q "mi_proceso" then kil11lall mi_proceso11 else echo "El proceso no está en ejecución" end
+if  ! -d mi_directorio  then mkdir mi_directorio else echo "El directorio ya existe" end
+if  ! -d mi_directorio  then mkdir mi_directorio else echo "El directorio ya existe" end
+if ps aux | grep -q "mi_proceso" then kil11lall mi_proceso11 else echo "El proceso no está en ejecución" end
+ls | xz | wc
+if ps aux | grep -q "mi_proceso" then kil11lall mi_proceso11 else echo "El proceso no está en ejecución" end
+ls | xz | wc
+if ps aux | grep -q "mi_proceso" then kil11lall mi_proceso11 else echo "El proceso no está en ejecución" end
+ls | xz | wc
+ls | xz | wc
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+ls | xz | wc
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexitexit
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" enexitexitexit
+if test -f archivo.txt  then echo "El archivo existe" else echo "El archivo no existe" end
+ls |xz|wc
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+ls | xz | wc
+if true then ls end
+again 1
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+ls | xz | wc
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+ls | xz | wc
+ls | xz | wc
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+write mi_usuario "Hola!" 
+echo "El usuario no está conectado" 
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+write mi_usuario "Hola!" 
+echo "El usuario no está conectado" 
+ls | xz | wc
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+write mi_usuario "Hola!" 
+echo "El usuario no está conectado" 
+EXIT
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+write mi_usuario "Hola!" 
+echo "El usuario no está conectado" 
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+write mi_usuario "Hola!" 
+echo "El usuario no está conectado" 
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+write mi_usuario "Hola!" 
+echo "El usuario no está conectado" 
+if who | grep -q "mi_usuario" then write mi_usuario "Hola!" else echo "El usuario no está conectado" end
+write mi_usuario "Hola!" 
+echo "El usuario no está conectado" 
+ls | xz | wc
+help
+help cd
+help <|>
+help
+help <ls>
+help <ls>
+help <ls>
+help <ls>
+help <ls>
+help <ls>
+help <ls>
+ls
+ls | xz | wc
