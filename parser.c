@@ -32,7 +32,7 @@ char *get_next_arg(char **input)
         // Si el argumento no comienza con una comilla doble, buscar el siguiente espacio o salto de línea
         arg = *input;
         
-        //printf("El valor de arg1 es: %s\n", arg);
+        
         end = strpbrk(*input, " \n");
         
 
@@ -69,7 +69,7 @@ command_t *parse_command(char *input)
     // Agregar el nombre del comando como primer argumento
 
     command->args[0] = command->name;
-    printf(input);
+    
     char *arg = get_next_arg(&input);
     
     if (strcmp(command->name, "help") == 0) {
@@ -169,7 +169,7 @@ command_t *parse_commands(char *input)
         
         char *subsegment;
         int nopipe;
-        if (strstr(input, "if") != NULL)
+        if (strstr(input, "if") != NULL && strstr(input,"help")==NULL)
         {
             subsegment = input;
             nopipe=1;
@@ -193,8 +193,7 @@ command_t *parse_commands(char *input)
             
             command_t *command = parse_command(subsegment);
             
-            printf("  name: %s\n", command->name);
-            printf("  args: %s\n", command->if_commands);
+            
             
             
             if (nopipe==0 && (subsegment = strtok_r(NULL, "|", &saveptr2)) != NULL)
@@ -204,12 +203,11 @@ command_t *parse_commands(char *input)
             if (strncmp(subsegment1, "if", strlen("if")) == 0)
             {
                 subsegment = subsegment1 + strlen("if");
-                printf("Subsegment después: %s\n", subsegment);
+                
                 subsegment1 = strdup(subsegment);
             }
             
-            perror("aqu");
-            perror(subsegment);
+            
             
             
             if (strcmp(command->name, "if") == 0)
@@ -238,8 +236,7 @@ command_t *parse_commands(char *input)
                             // new_subsegment contiene la subcadena desde el principio hasta antes de "else" o "end"
                             subsegment=new_subsegment;
                         }
-                    printf("aqui es lo que se le pasa a parse comma");
-                    printf("%s \n",subsegment);
+                    
                     command_t *cmd = parse_command(subsegment);
                     if_command->next = cmd;
                     command->if_commands = cmd;
@@ -255,8 +252,7 @@ command_t *parse_commands(char *input)
                     subsegment = p;
                     subsegment1 = strdup(subsegment);
                 }
-                perror("antes del if");
-                perror(subsegment);
+                
                 
                 if (subsegment != NULL && strncmp(subsegment, "then", 4) == 0)
                 {
@@ -270,10 +266,9 @@ command_t *parse_commands(char *input)
                     while (subsegment != NULL && strcmp(subsegment, "else") != 0 && strcmp(subsegment, "end") != 0)
                     {
                             // Analizar los comandos entre then y else o end
-                            perror("debtro de then");
-                            perror(subsegment);
+                            
                             char *arg = get_next_arg(&subsegment);
-                            perror(subsegment);
+                            
                             char *p1 = strstr(subsegment, "else");
                             char *p2 = strstr(subsegment, "end");
                             char *p;
@@ -302,7 +297,7 @@ command_t *parse_commands(char *input)
                             }
 
                             command_t *cmd = parse_command(subsegment);
-                            perror(cmd->name);
+                            
                             then_command->next = cmd;
                             command->then_commands = cmd;
 
@@ -315,8 +310,7 @@ command_t *parse_commands(char *input)
                             subsegment = p;
                             subsegment1 = strdup(subsegment);
                     }
-                    perror("antes del else");
-                    perror(subsegment);
+                    
 
                     if (subsegment != NULL && strncmp(subsegment, "else", 4) == 0)
                     {
@@ -324,19 +318,14 @@ command_t *parse_commands(char *input)
                             command_t *else_command = malloc(sizeof(command_t));
                             else_command->next = NULL;
                             command->else_commands = else_command;
-                            perror("antes de sub");
-                            perror(subsegment);
-                            if (subsegment != NULL)
-                            {
-                                perror("entro al no NUl");
-                            }
+                            
+                            
                             while (subsegment != NULL && strcmp(subsegment, "end") != 0)
                             {
                                 // Analizar los comandos entre else y end
-                                perror("dentro del else");
+                                
                                 char *arg = get_next_arg(&subsegment);
-                                perror("kjfna");
-                                perror(subsegment);
+                                
 
                                 char *p = strstr(subsegment, "end");
 
@@ -351,7 +340,7 @@ command_t *parse_commands(char *input)
                                     // new_subsegment contiene la subcadena desde el principio hasta antes de "else" o "end"
                                     subsegment = new_subsegment;
                                 }
-                                perror(subsegment);
+                                
                                 command_t *cmd = parse_command(subsegment);
                                 else_command->next = cmd;
                                 command->else_commands = cmd;
@@ -379,30 +368,23 @@ command_t *parse_commands(char *input)
     }
 
     // Imprimir en pantalla la lista de comandos generada
-    printf("Commands:\n");
+
 
     command_t *commands = head;
 
     while (commands != NULL)
     {
-        printf("  Command: %s\n", commands->name);
-
-        printf("  Arguments:\n");
-        for (int i = 0; i < commands->num_args; i++)
-        {
-            printf("    %s\n", commands->args[i]);
-        }
-        printf("\n");
+        
+        
 
         // Imprimir los comandos dentro de if_commands
         if (commands->if_commands != NULL)
         {
-            printf("  If Commands:\n");
+            
             command_t *if_commands = commands->if_commands;
             while (if_commands != NULL)
             {
-                printf("    Command: %s\n", if_commands->name);
-                printf("    Arguments:\n");
+               
                 for (int i = 0; i < if_commands->num_args; i++)
                 {
                     if (strchr(if_commands->args[i], '|') != NULL)
@@ -432,9 +414,9 @@ command_t *parse_commands(char *input)
                             if_commands->num_args = i;
                             break;
                     }
-                    printf("      %s\n", if_commands->args[i]);
+                    
                 }
-                printf("\n");
+                
                 if_commands = if_commands->next;
             }
         }
@@ -442,12 +424,11 @@ command_t *parse_commands(char *input)
         // Imprimir los comandos dentro de then_commands
         if (commands->then_commands != NULL)
         {
-            printf("  Then Commands:\n");
+            
             command_t *then_commands = commands->then_commands;
             while (then_commands != NULL)
             {
-                printf("    Command: %s\n", then_commands->name);
-                printf("    Arguments:\n");
+                
                 for (int i = 0; i < then_commands->num_args; i++)
                 {   
                     if (strchr(then_commands->args[i], '|') != NULL)
@@ -477,9 +458,9 @@ command_t *parse_commands(char *input)
                             then_commands->num_args = i;
                             break;
                     }
-                    printf("      %s\n", then_commands->args[i]);
+                    
                 }
-                printf("\n");
+                
                 then_commands = then_commands->next;
             }
         }
@@ -487,12 +468,11 @@ command_t *parse_commands(char *input)
         // Imprimir los comandos dentro de else_commands
         if (commands->else_commands != NULL)
         {
-            printf("  Else Commands:\n");
+            
             command_t *else_commands = commands->else_commands;
             while (else_commands != NULL)
             {
-                printf("    Command: %s\n", else_commands->name);
-                printf("    Arguments:\n");
+                
                 for (int i = 0; i < else_commands->num_args; i++)
                 {   
                      if (strchr(else_commands->args[i], '|') != NULL)
@@ -522,9 +502,9 @@ command_t *parse_commands(char *input)
                             else_commands->num_args = i;
                             break;
                     }
-                    printf("      %s\n", else_commands->args[i]);
+                    
                 }
-                printf("\n");
+                
                 else_commands = else_commands->next;
             }
         }

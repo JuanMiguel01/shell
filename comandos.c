@@ -122,7 +122,4 @@ void restaurar_entrada(int stdin_copy) {
     close(stdin_copy);
 }
 
-void ejecutarComando(char *comando[]) {
-    // Implementa aquí tu propia lógica para ejecutar el comando
-    // ...
-}
+
