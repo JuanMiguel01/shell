@@ -30,7 +30,7 @@ char *Prompt(){
     }
     if(!error){
         
-        char result[1024];
+        char result[2048];
         sprintf(result, "%s@%s~%s$ ", login, nombreHost, dirActual);
         return readline(result);
        

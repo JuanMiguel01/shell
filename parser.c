@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <readline/history.h>
 #include "parser.h"
 char *get_next_arg(char **input)
 {
@@ -52,7 +53,7 @@ command_t *parse_command(char *input)
 {
 
     command_t *command = malloc(sizeof(command_t));
-    char *saveptr1;
+    
     command->name = get_next_arg(&input);
     command->args = malloc(sizeof(char *));
     command->num_args = 1;
@@ -165,7 +166,7 @@ command_t *parse_commands(char *input)
     {
                 
         char *saveptr2;
-        char *saveptr3;
+        
         char *subsegment;
         int nopipe;
         if (strstr(input, "if") != NULL)
